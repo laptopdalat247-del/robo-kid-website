@@ -821,11 +821,15 @@ const Footer = () => (
         </div>
         <div>
           <h4 style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 16 }}>Công ty</h4>
-          {["Về chúng tôi", "Chính sách bảo mật", "Điều khoản sử dụng"].map((l, i) => (
-            <a key={i} href="#" style={{ display: "block", color: "#94A3B8", textDecoration: "none", fontSize: 14, marginBottom: 10 }}
+          {[
+            { label: "Về chúng tôi", url: "#" },
+            { label: "Chính sách bảo mật", url: "/privacy/" },
+            { label: "Điều khoản sử dụng", url: "/terms/" },
+          ].map((l, i) => (
+            <a key={i} href={l.url} style={{ display: "block", color: "#94A3B8", textDecoration: "none", fontSize: 14, marginBottom: 10 }}
               onMouseEnter={(e) => (e.target as HTMLElement).style.color = "#fff"}
               onMouseLeave={(e) => (e.target as HTMLElement).style.color = "#94A3B8"}
-            >{l}</a>
+            >{l.label}</a>
           ))}
         </div>
         <div>
