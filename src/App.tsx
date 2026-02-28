@@ -681,7 +681,7 @@ function ContactCTA() {
 function Footer() {
   const cols = [
     { title: 'Sản phẩm', items: [
-      { text: 'Student App', href: '#Sản phẩm' },
+      { text: 'Student App', href: 'https://app.robokid.edu.vn' },
       { text: 'Center Portal', href: 'https://center.robokid.edu.vn' },
       { text: 'Quiz Platform', href: 'https://baitap.robokid.edu.vn' },
     ]},
