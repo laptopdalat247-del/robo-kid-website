@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /* ═══════════════════ DESIGN TOKENS ═══════════════════ */
 const C = {
@@ -680,9 +680,21 @@ function ContactCTA() {
    ══════════════════════════════════════════════════════ */
 function Footer() {
   const cols = [
-    { title: 'Sản phẩm', items: ['Student App', 'Center Portal', 'Quiz Platform'] },
-    { title: 'Hỗ trợ', items: ['Hướng dẫn sử dụng', 'FAQ', 'Liên hệ'] },
-    { title: 'Liên kết', items: ['center.robokid.edu.vn', 'baitap.robokid.edu.vn', 'robokid.edu.vn'] },
+    { title: 'Sản phẩm', items: [
+      { text: 'Student App', href: '#Sản phẩm' },
+      { text: 'Center Portal', href: 'https://center.robokid.edu.vn' },
+      { text: 'Quiz Platform', href: 'https://baitap.robokid.edu.vn' },
+    ]},
+    { title: 'Hỗ trợ', items: [
+      { text: 'Hướng dẫn sử dụng', href: '#Tính năng' },
+      { text: 'FAQ', href: '#Trung tâm' },
+      { text: 'Liên hệ', href: '#Liên hệ' },
+    ]},
+    { title: 'Liên kết', items: [
+      { text: 'center.robokid.edu.vn', href: 'https://center.robokid.edu.vn' },
+      { text: 'baitap.robokid.edu.vn', href: 'https://baitap.robokid.edu.vn' },
+      { text: 'robokid.edu.vn', href: 'https://robokid.edu.vn' },
+    ]},
   ]
 
   return (
@@ -700,11 +712,14 @@ function Footer() {
         {cols.map(c => (
           <div key={c.title}>
             <div style={{ fontFamily: font.body, fontWeight: 700, fontSize: 14, color: '#fff', marginBottom: 18 }}>{c.title}</div>
-            {c.items.map(item => (
-              <div key={item} style={{ fontSize: 14, color: 'rgba(255,255,255,.45)', fontFamily: font.body, marginBottom: 12, cursor: 'pointer', transition: 'color .2s' }}
-                onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,.7)'}
-                onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,.45)'}
-              >{item}</div>
+            {c.items.map((item: any) => (
+              <a key={item.text} href={item.href}
+                target={item.href.startsWith('http') ? '_blank' : undefined}
+                rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
+                style={{ display: 'block', fontSize: 14, color: 'rgba(255,255,255,.45)', fontFamily: font.body, marginBottom: 12, cursor: 'pointer', transition: 'color .2s', textDecoration: 'none' }}
+                onMouseEnter={(e: any) => e.currentTarget.style.color = 'rgba(255,255,255,.7)'}
+                onMouseLeave={(e: any) => e.currentTarget.style.color = 'rgba(255,255,255,.45)'}
+              >{item.text}</a>
             ))}
           </div>
         ))}
