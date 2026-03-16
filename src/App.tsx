@@ -1,5 +1,10 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import HoTro from "./pages/HoTro";
+
+// Simple path-based routing — no react-router-dom needed.
+// Vite dev server and most static hosts serve index.html for all paths.
+const _currentPath = typeof window !== "undefined" ? window.location.pathname : "/";
 
 /* ─── HOOKS ─── */
 const useInView = (threshold = 0.15): [React.RefObject<HTMLDivElement | null>, boolean] => {
@@ -93,6 +98,17 @@ const Navbar = () => {
             </button>
           ))}
           <a
+            href="/ho-tro"
+            style={{
+              background: "none", fontSize: 15, fontWeight: 500, color: "#475569",
+              padding: "8px 0", textDecoration: "none",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#2563EB")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#475569")}
+          >
+            Hỗ trợ
+          </a>
+          <a
             href="https://center.robokid.edu.vn"
             target="_blank"
             rel="noopener noreferrer"
@@ -130,6 +146,11 @@ const Navbar = () => {
               {l.label}
             </button>
           ))}
+          <a href="/ho-tro"
+            style={{ display: "block", padding: "12px 0", fontSize: 16, fontWeight: 500, color: "#334155", textDecoration: "none" }}
+          >
+            Hỗ trợ
+          </a>
           <a href="https://center.robokid.edu.vn" target="_blank" rel="noopener noreferrer"
             style={{ display: "block", textAlign: "center", background: "#2563EB", color: "#fff", padding: "12px", borderRadius: 10, fontSize: 15, fontWeight: 600, textDecoration: "none", marginTop: 8 }}
           >
@@ -849,6 +870,8 @@ const Footer = () => (
 
 /* ─── MAIN APP ─── */
 export default function App() {
+  if (_currentPath === "/ho-tro") return <HoTro />;
+
   return (
     <div style={{ fontFamily: "'Be Vietnam Pro', -apple-system, sans-serif", color: "#1E293B" }}>
       <style>{`
