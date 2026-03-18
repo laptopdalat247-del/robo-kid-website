@@ -53,7 +53,7 @@ const HoTroNavbar = () => {
     }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-          <img src="/logo-48.png" alt="ROBO-KID" style={{ width: 42, height: 42, objectFit: "contain" }} />
+          <img src="/logo-48.png" alt="ROBO-KID" style={{ width: 48, height: 48, objectFit: "contain" }} />
           <span style={{ fontSize: 22, fontWeight: 800, color: "#1E293B", letterSpacing: -0.5 }}>
             ROBO<span style={{ color: "#2563EB" }}>-</span>KID
           </span>
