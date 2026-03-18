@@ -70,12 +70,7 @@ const Navbar = () => {
     >
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-          <div style={{
-            width: 42, height: 42, borderRadius: 12,
-            background: "linear-gradient(135deg, #2563EB, #7C3AED)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 22, color: "#fff", fontWeight: 800,
-          }}>R</div>
+          <img src="/logo-48.png" alt="ROBO-KID" style={{ width: 42, height: 42, objectFit: "contain" }} />
           <span style={{ fontSize: 22, fontWeight: 800, color: "#1E293B", letterSpacing: -0.5 }}>
             ROBO<span style={{ color: "#2563EB" }}>-</span>KID
           </span>
@@ -812,12 +807,7 @@ const Footer = () => (
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 40 }} className="footer-grid">
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <div style={{
-              width: 36, height: 36, borderRadius: 10,
-              background: "linear-gradient(135deg, #2563EB, #7C3AED)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 18, color: "#fff", fontWeight: 800,
-            }}>R</div>
+            <img src="/logo-48.png" alt="ROBO-KID" style={{ width: 36, height: 36, objectFit: "contain" }} />
             <span style={{ fontSize: 20, fontWeight: 800, color: "#fff" }}>ROBO-KID</span>
           </div>
           <p style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 300 }}>
