@@ -53,12 +53,7 @@ const HoTroNavbar = () => {
     }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-          <div style={{
-            width: 42, height: 42, borderRadius: 12,
-            background: "linear-gradient(135deg, #2563EB, #7C3AED)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 22, color: "#fff", fontWeight: 800,
-          }}>R</div>
+          <img src="/logo-48.png" alt="ROBO-KID" style={{ width: 42, height: 42, objectFit: "contain" }} />
           <span style={{ fontSize: 22, fontWeight: 800, color: "#1E293B", letterSpacing: -0.5 }}>
             ROBO<span style={{ color: "#2563EB" }}>-</span>KID
           </span>
@@ -270,11 +265,19 @@ const HoTroHero = () => {
 
 /* ─── VIDEO HƯỚNG DẪN ─── */
 const VideoSection = () => {
-  const videos = [
-    { title: "Hướng dẫn thiết lập trung tâm lần đầu", duration: "5:32", tag: "Bắt đầu" },
-    { title: "Import dữ liệu học sinh từ Excel", duration: "4:18", tag: "Import" },
-    { title: "Tạo lớp học và xếp lịch học", duration: "3:45", tag: "Lớp học" },
-    { title: "Thu học phí và tạo hóa đơn tự động", duration: "6:10", tag: "Tài chính" },
+  type Video =
+    | { youtubeId: string; title: string; duration: string; tag: string; tagColor: string }
+    | { youtubeId: null; title: string; duration: string; tag: string; tagColor: string };
+
+  const videos: Video[] = [
+    { youtubeId: "6BE_5Osr5sU", title: "Hướng dẫn đăng ký & đăng nhập", duration: "4:45", tag: "Bắt đầu", tagColor: "#2563EB" },
+    { youtubeId: null, title: "Import dữ liệu học sinh từ Excel", duration: "Sắp ra mắt", tag: "Import", tagColor: "#7C3AED" },
+    { youtubeId: null, title: "Tạo lớp học và xếp lịch học", duration: "Sắp ra mắt", tag: "Lớp học", tagColor: "#0891B2" },
+    { youtubeId: null, title: "Thu học phí và tạo hóa đơn tự động", duration: "Sắp ra mắt", tag: "Tài chính", tagColor: "#059669" },
+    { youtubeId: null, title: "Điểm danh và gửi thông báo phụ huynh", duration: "Sắp ra mắt", tag: "Điểm danh", tagColor: "#D97706" },
+    { youtubeId: null, title: "Quản lý giáo viên và phân công lớp", duration: "Sắp ra mắt", tag: "Giáo viên", tagColor: "#DC2626" },
+    { youtubeId: null, title: "Xem báo cáo và thống kê trung tâm", duration: "Sắp ra mắt", tag: "Báo cáo", tagColor: "#7C3AED" },
+    { youtubeId: null, title: "Cài đặt App học sinh & kết nối phụ huynh", duration: "Sắp ra mắt", tag: "Student App", tagColor: "#2563EB" },
   ];
 
   return (
@@ -294,51 +297,90 @@ const VideoSection = () => {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }} className="hotro-video-grid">
           {videos.map((v, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
+            <FadeIn key={i} delay={i * 0.06}>
               <div style={{
                 borderRadius: 16, overflow: "hidden",
-                border: "1px solid #E2E8F0",
+                border: `1px solid ${v.youtubeId ? "#BFDBFE" : "#E2E8F0"}`,
                 background: "#fff",
                 transition: "all 0.3s",
+                boxShadow: v.youtubeId ? "0 4px 20px rgba(37,99,235,0.08)" : "none",
               }}
                 onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 8px 30px rgba(0,0,0,0.08)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = v.youtubeId ? "0 4px 20px rgba(37,99,235,0.08)" : "none"; e.currentTarget.style.transform = "translateY(0)"; }}
               >
-                {/* YouTube embed placeholder */}
-                <div style={{
-                  position: "relative", paddingBottom: "56.25%", background: "linear-gradient(135deg, #1E293B, #334155)",
-                  cursor: "pointer",
-                }}>
+                {/* Video area */}
+                {v.youtubeId ? (
+                  /* Real YouTube embed */
+                  <div style={{ position: "relative", paddingBottom: "56.25%", background: "#000" }}>
+                    <iframe
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+                      src={`https://www.youtube.com/embed/${v.youtubeId}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  /* Coming-soon placeholder */
                   <div style={{
-                    position: "absolute", inset: 0,
-                    display: "flex", flexDirection: "column" as const, alignItems: "center", justifyContent: "center",
+                    position: "relative", paddingBottom: "56.25%",
+                    background: "linear-gradient(135deg, #F1F5F9, #E2E8F0)",
                   }}>
                     <div style={{
-                      width: 60, height: 60, borderRadius: "50%",
-                      background: "rgba(255,255,255,0.15)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      marginBottom: 12,
-                      backdropFilter: "blur(4px)",
-                      border: "2px solid rgba(255,255,255,0.25)",
+                      position: "absolute", inset: 0,
+                      display: "flex", flexDirection: "column" as const, alignItems: "center", justifyContent: "center",
+                      gap: 10,
                     }}>
-                      <span style={{ fontSize: 24, marginLeft: 4 }}>▶</span>
+                      <div style={{
+                        width: 52, height: 52, borderRadius: "50%",
+                        background: "rgba(148,163,184,0.2)",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        border: "2px solid rgba(148,163,184,0.3)",
+                      }}>
+                        <span style={{ fontSize: 22, opacity: 0.5 }}>▶</span>
+                      </div>
+                      <span style={{
+                        fontSize: 12, fontWeight: 600,
+                        color: "#94A3B8",
+                        background: "#fff",
+                        border: "1px solid #E2E8F0",
+                        borderRadius: 20, padding: "4px 12px",
+                      }}>
+                        🎬 Sắp ra mắt
+                      </span>
                     </div>
-                    <span style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>YouTube • {v.duration}</span>
+                    <div style={{
+                      position: "absolute", top: 12, left: 12,
+                      background: v.tagColor, color: "#fff",
+                      borderRadius: 6, padding: "3px 10px", fontSize: 11, fontWeight: 700,
+                      opacity: 0.7,
+                    }}>
+                      {v.tag}
+                    </div>
                   </div>
-                  <div style={{
-                    position: "absolute", top: 12, left: 12,
-                    background: "#2563EB", color: "#fff",
-                    borderRadius: 6, padding: "3px 10px", fontSize: 11, fontWeight: 700,
-                  }}>
-                    {v.tag}
-                  </div>
-                </div>
-                <div style={{ padding: "16px 20px" }}>
-                  <h4 style={{ fontSize: 15, fontWeight: 700, color: "#1E293B", lineHeight: 1.4, marginBottom: 8 }}>{v.title}</h4>
+                )}
+
+                <div style={{ padding: "14px 18px" }}>
+                  <h4 style={{ fontSize: 14, fontWeight: 700, color: v.youtubeId ? "#1E293B" : "#94A3B8", lineHeight: 1.4, marginBottom: 6 }}>
+                    {v.title}
+                  </h4>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 12, color: "#94A3B8" }}>⏱ {v.duration}</span>
-                    <span style={{ fontSize: 12, color: "#CBD5E1" }}>•</span>
-                    <span style={{ fontSize: 12, color: "#2563EB", fontWeight: 500, cursor: "pointer" }}>Xem ngay →</span>
+                    {v.youtubeId ? (
+                      <>
+                        <span style={{ fontSize: 11, color: "#94A3B8" }}>⏱ {v.duration}</span>
+                        <span style={{ fontSize: 11, color: "#CBD5E1" }}>•</span>
+                        <a
+                          href={`https://www.youtube.com/watch?v=${v.youtubeId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ fontSize: 11, color: "#2563EB", fontWeight: 600, textDecoration: "none" }}
+                        >
+                          Xem trên YouTube →
+                        </a>
+                      </>
+                    ) : (
+                      <span style={{ fontSize: 11, color: "#CBD5E1" }}>Đang sản xuất...</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -347,18 +389,20 @@ const VideoSection = () => {
         </div>
 
         <FadeIn delay={0.3}>
-          <div style={{ textAlign: "center", marginTop: 32 }}>
-            <a href="https://www.youtube.com/@robokid" target="_blank" rel="noopener noreferrer"
+          <div style={{ textAlign: "center", marginTop: 36 }}>
+            <a href={`https://www.youtube.com/watch?v=6BE_5Osr5sU`} target="_blank" rel="noopener noreferrer"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
-                background: "#FAFBFC", border: "1px solid #E2E8F0",
-                color: "#334155", padding: "12px 28px", borderRadius: 10,
+                background: "#FF0000", color: "#fff",
+                padding: "12px 28px", borderRadius: 10,
                 fontSize: 14, fontWeight: 600, textDecoration: "none",
+                boxShadow: "0 4px 14px rgba(255,0,0,0.25)",
+                transition: "all 0.2s",
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = "#F1F5F9"}
-              onMouseLeave={(e) => e.currentTarget.style.background = "#FAFBFC"}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(255,0,0,0.35)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 14px rgba(255,0,0,0.25)"; }}
             >
-              📺 Xem tất cả video trên YouTube →
+              📺 Xem video trên YouTube →
             </a>
           </div>
         </FadeIn>
