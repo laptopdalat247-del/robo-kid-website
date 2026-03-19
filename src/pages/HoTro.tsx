@@ -293,6 +293,8 @@ const FALLBACK_VIDEOS: FetchedVideo[] = [
 
 const VideoCard = ({ video }: { video: FetchedVideo }) => {
   const [hovered, setHovered] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  if (imgError) return null; // Video đã bị xóa → thumbnail lỗi → ẩn card
   const formatted = (() => {
     try { return new Date(video.publishedAt).toLocaleDateString('vi-VN'); } catch { return video.publishedAt; }
   })();
@@ -320,7 +322,7 @@ const VideoCard = ({ video }: { video: FetchedVideo }) => {
           src={video.thumbnail}
           alt={video.title}
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-          onError={(e) => { (e.target as HTMLImageElement).src = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`; }}
+          onError={() => setImgError(true)}
         />
         <div style={{
           position: "absolute", inset: 0,
@@ -399,8 +401,10 @@ const VideoSection = () => {
               publishedAt: item.pubDate,
             };
           }).filter((v: FetchedVideo) => v.id);
-          setVideos(parsed);
-          setFetchedCount(parsed.length);
+          // Dedup: giữ video đầu tiên nếu trùng title (RSS cache có thể trả duplicate)
+          const unique = parsed.filter((v, i, arr) => arr.findIndex(x => x.title === v.title) === i);
+          setVideos(unique);
+          setFetchedCount(unique.length);
         } else {
           // Empty feed (channel has no public videos yet) → use fallback
           setVideos(FALLBACK_VIDEOS);
