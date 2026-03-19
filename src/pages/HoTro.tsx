@@ -292,7 +292,7 @@ const FALLBACK_VIDEOS: FetchedVideo[] = [
 
 
 const VideoCard = ({ video }: { video: FetchedVideo }) => {
-  const [playing, setPlaying] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const formatted = (() => {
     try { return new Date(video.publishedAt).toLocaleDateString('vi-VN'); } catch { return video.publishedAt; }
   })();
@@ -307,64 +307,59 @@ const VideoCard = ({ video }: { video: FetchedVideo }) => {
       onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 10px 32px rgba(37,99,235,0.14)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
       onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 4px 20px rgba(37,99,235,0.07)"; e.currentTarget.style.transform = "translateY(0)"; }}
     >
-      <div style={{ position: "relative", paddingBottom: "56.25%", background: "#000" }}>
-        {playing ? (
-          <iframe
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
-            src={`https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`}
-            title={video.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
-        ) : (
-          <div
-            style={{ position: "absolute", inset: 0, cursor: "pointer" }}
-            onClick={() => setPlaying(true)}
-          >
-            <img
-              src={video.thumbnail}
-              alt={video.title}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              onError={(e) => { (e.target as HTMLImageElement).src = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`; }}
-            />
-            {/* Play button overlay */}
-            <div style={{
-              position: "absolute", inset: 0,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              background: "rgba(0,0,0,0.15)",
-              transition: "background 0.2s",
-            }}>
-              <div style={{
-                width: 64, height: 44, borderRadius: 12,
-                background: "#FF0000",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
-              }}>
-                <span style={{ color: "#fff", fontSize: 18, marginLeft: 4 }}>▶</span>
-              </div>
-            </div>
+      {/* Thumbnail click = mở YouTube trong tab mới, không dùng iframe (tránh lỗi video bị xóa) */}
+      <a
+        href={`https://www.youtube.com/watch?v=${video.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: "block", position: "relative", paddingBottom: "56.25%", background: "#000", textDecoration: "none" }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <img
+          src={video.thumbnail}
+          alt={video.title}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          onError={(e) => { (e.target as HTMLImageElement).src = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`; }}
+        />
+        <div style={{
+          position: "absolute", inset: 0,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          background: hovered ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.15)",
+          transition: "background 0.2s",
+        }}>
+          <div style={{
+            width: 64, height: 44, borderRadius: 12,
+            background: "#FF0000",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
+            transform: hovered ? "scale(1.1)" : "scale(1)",
+            transition: "transform 0.2s",
+          }}>
+            <span style={{ color: "#fff", fontSize: 18, marginLeft: 4 }}>&#9658;</span>
           </div>
-        )}
-      </div>
+        </div>
+      </a>
       <div style={{ padding: "14px 18px" }}>
         <h4 style={{ fontSize: 14, fontWeight: 700, color: "#1E293B", lineHeight: 1.4, marginBottom: 6 }}>
           {video.title}
         </h4>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 11, color: "#94A3B8" }}>📅 {formatted}</span>
-          <span style={{ fontSize: 11, color: "#CBD5E1" }}>•</span>
+          <span style={{ fontSize: 11, color: "#94A3B8" }}>&#128197; {formatted}</span>
+          <span style={{ fontSize: 11, color: "#CBD5E1" }}>&bull;</span>
           <a
             href={`https://www.youtube.com/watch?v=${video.id}`}
             target="_blank" rel="noopener noreferrer"
             style={{ fontSize: 11, color: "#2563EB", fontWeight: 600, textDecoration: "none" }}
           >
-            Xem trên YouTube →
+            Xem tr&#234;n YouTube &rarr;
           </a>
         </div>
       </div>
     </div>
   );
 };
+
 
 const SkeletonCard = () => (
   <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid #E2E8F0" }}>
