@@ -281,16 +281,15 @@ const FALLBACK_VIDEOS: FetchedVideo[] = [
     thumbnail: 'https://i.ytimg.com/vi/6BE_5Osr5sU/hqdefault.jpg',
     publishedAt: '18/03/2026',
   },
+  {
+    id: 'yPsvwyvTu5E',
+    title: 'Cài đặt trung tâm sau khi đăng ký thành công',
+    thumbnail: 'https://i.ytimg.com/vi/yPsvwyvTu5E/hqdefault.jpg',
+    publishedAt: '19/03/2026',
+  },
 ];
 
-const COMING_SOON_TITLES = [
-  'Import dữ liệu học sinh từ Excel',
-  'Tạo lớp học và xếp lịch học',
-  'Thu học phí và tạo hóa đơn tự động',
-  'Điểm danh và gửi thông báo phụ huynh',
-  'Quản lý giáo viên và phân công lớp',
-  'Xem báo cáo và thống kê trung tâm',
-];
+
 
 const VideoCard = ({ video }: { video: FetchedVideo }) => {
   const [playing, setPlaying] = useState(false);
@@ -382,33 +381,6 @@ const SkeletonCard = () => (
   </div>
 );
 
-const ComingSoonCard = ({ title }: { title: string }) => (
-  <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid #E2E8F0", background: "#FAFBFC" }}>
-    <div style={{ position: "relative", paddingBottom: "56.25%", background: "linear-gradient(135deg, #F1F5F9, #E2E8F0)" }}>
-      <div style={{
-        position: "absolute", inset: 0,
-        display: "flex", flexDirection: "column" as const, alignItems: "center", justifyContent: "center", gap: 10,
-      }}>
-        <div style={{
-          width: 48, height: 48, borderRadius: "50%",
-          background: "rgba(148,163,184,0.2)", border: "2px solid rgba(148,163,184,0.3)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <span style={{ fontSize: 20, opacity: 0.4 }}>▶</span>
-        </div>
-        <span style={{
-          fontSize: 11, fontWeight: 600, color: "#94A3B8",
-          background: "#fff", border: "1px solid #E2E8F0",
-          borderRadius: 20, padding: "3px 12px",
-        }}>🎬 Sắp ra mắt</span>
-      </div>
-    </div>
-    <div style={{ padding: "14px 18px" }}>
-      <h4 style={{ fontSize: 14, fontWeight: 600, color: "#94A3B8", lineHeight: 1.4, marginBottom: 6 }}>{title}</h4>
-      <span style={{ fontSize: 11, color: "#CBD5E1" }}>Đang sản xuất...</span>
-    </div>
-  </div>
-);
 
 const VideoSection = () => {
   const [videos, setVideos] = useState<FetchedVideo[] | null>(null);
@@ -417,7 +389,7 @@ const VideoSection = () => {
 
   useEffect(() => {
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`;
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=20`;
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
     fetch(apiUrl)
       .then((r) => r.json())
@@ -446,7 +418,6 @@ const VideoSection = () => {
   }, []);
 
   const displayVideos = videos ?? FALLBACK_VIDEOS;
-  const comingSoonCount = Math.max(0, 6 - displayVideos.length);
 
   return (
     <section style={{ padding: "80px 24px", background: "#fff" }}>
@@ -501,11 +472,6 @@ const VideoSection = () => {
             <>
               {displayVideos.map((v, i) => (
                 <FadeIn key={v.id} delay={i * 0.06}><VideoCard video={v} /></FadeIn>
-              ))}
-              {Array.from({ length: comingSoonCount }).map((_, i) => (
-                <FadeIn key={`cs-${i}`} delay={(displayVideos.length + i) * 0.06}>
-                  <ComingSoonCard title={COMING_SOON_TITLES[i] ?? `Video hướng dẫn ${displayVideos.length + i + 1}`} />
-                </FadeIn>
               ))}
             </>
           )}
